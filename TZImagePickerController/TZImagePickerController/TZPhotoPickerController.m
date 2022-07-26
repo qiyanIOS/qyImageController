@@ -712,9 +712,39 @@ static CGFloat itemMargin = 5;
             TZImagePickerController *imagePickerVc = (TZImagePickerController *)self.navigationController;
             [imagePickerVc showAlertWithTitle:[NSBundle tz_localizedStringForKey:@"Can not choose both video and photo"]];
         } else {
-            TZVideoPlayerController *videoPlayerVc = [[TZVideoPlayerController alloc] init];
-            videoPlayerVc.model = model;
-            [self.navigationController pushViewController:videoPlayerVc animated:YES];
+            PHVideoRequestOptions *options = [[PHVideoRequestOptions alloc] init];
+            options.version = PHVideoRequestOptionsVersionOriginal;
+            [[PHImageManager defaultManager] requestAVAssetForVideo:model.asset options:options resultHandler:^(AVAsset *asset, AVAudioMix *audioMix, NSDictionary *info) {
+                if ([asset isKindOfClass:[AVURLAsset class]]) {
+                    AVURLAsset* urlAsset = (AVURLAsset*)asset;
+                    NSNumber *size;
+                    [urlAsset.URL getResourceValue:&size forKey:NSURLFileSizeKey error:nil];
+                    NSLog(@"size is %f",[size floatValue]/(1024.0*1024.0)); //size is 43.703005
+                    if ([size floatValue]/(1024.0*1024.0) > 100){
+
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                          
+                      
+                        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"温馨提示" message:@"不能选取超过100M的视频" preferredStyle:UIAlertControllerStyleAlert];
+                        
+                      
+                        UIAlertAction *settingAct = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                           
+                        }];
+                        [alertController addAction:settingAct];
+                        [self.navigationController presentViewController:alertController animated:YES completion:nil];
+                        });
+                        
+                    }else{
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                        TZVideoPlayerController *videoPlayerVc = [[TZVideoPlayerController alloc] init];
+                        videoPlayerVc.model = model;
+                        [self.navigationController pushViewController:videoPlayerVc animated:YES];
+                        });
+                    }
+                    
+             }}];
+            
         }
     } else if (model.type == TZAssetModelMediaTypePhotoGif && tzImagePickerVc.allowPickingGif && !tzImagePickerVc.allowPickingMultipleVideo) {
         if (tzImagePickerVc.selectedModels.count > 0) {
