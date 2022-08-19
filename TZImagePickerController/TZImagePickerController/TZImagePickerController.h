@@ -119,6 +119,8 @@
 /// 默认为YES，如果设置为NO, 用户将不能拍摄照片
 @property (nonatomic, assign) BOOL allowTakePicture;
 
+@property (nonatomic,assign) double maxTime;//新增
+
 #ifdef TZ_HAVE_LOCATION_CODE
 @property (nonatomic, assign) BOOL allowCameraLocation;
 #endif

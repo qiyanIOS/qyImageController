@@ -50,6 +50,7 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, assign) BOOL isCameraRoll;
 
+
 - (void)setResult:(PHFetchResult *)result needFetchAssets:(BOOL)needFetchAssets;
 - (void)refreshFetchResult;
 

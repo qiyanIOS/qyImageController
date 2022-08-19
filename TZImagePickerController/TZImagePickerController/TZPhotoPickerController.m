@@ -712,6 +712,28 @@ static CGFloat itemMargin = 5;
             TZImagePickerController *imagePickerVc = (TZImagePickerController *)self.navigationController;
             [imagePickerVc showAlertWithTitle:[NSBundle tz_localizedStringForKey:@"Can not choose both video and photo"]];
         } else {
+            
+            if  (TZImageManager.manager.maxTime > 0){//说明指定了时长
+                if (model.asset.duration > TZImageManager.manager.maxTime * 60){
+                    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"温馨提示" message:@"视频不能超过一分钟" preferredStyle:UIAlertControllerStyleAlert];
+                    
+                  
+                    UIAlertAction *settingAct = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                       
+                    }];
+                    [alertController addAction:settingAct];
+                    [self.navigationController presentViewController:alertController animated:YES completion:nil];
+                }else{
+                   
+                    TZVideoPlayerController *videoPlayerVc = [[TZVideoPlayerController alloc] init];
+                    videoPlayerVc.model = model;
+                    [self.navigationController pushViewController:videoPlayerVc animated:YES];
+                   
+                }
+            }else{
+                
+            
+            
             PHVideoRequestOptions *options = [[PHVideoRequestOptions alloc] init];
             options.version = PHVideoRequestOptionsVersionOriginal;
             [[PHImageManager defaultManager] requestAVAssetForVideo:model.asset options:options resultHandler:^(AVAsset *asset, AVAudioMix *audioMix, NSDictionary *info) {
@@ -744,7 +766,7 @@ static CGFloat itemMargin = 5;
                     }
                     
              }}];
-            
+            }
         }
     } else if (model.type == TZAssetModelMediaTypePhotoGif && tzImagePickerVc.allowPickingGif && !tzImagePickerVc.allowPickingMultipleVideo) {
         if (tzImagePickerVc.selectedModels.count > 0) {
