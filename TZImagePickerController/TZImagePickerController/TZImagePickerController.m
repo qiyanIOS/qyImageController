@@ -174,7 +174,7 @@
 }
 
 - (instancetype)initWithMaxImagesCount:(NSInteger)maxImagesCount columnNumber:(NSInteger)columnNumber delegate:(id<TZImagePickerControllerDelegate>)delegate pushPhotoPickerVc:(BOOL)pushPhotoPickerVc {
-    TZImageManager.manager.maxTime = self.maxTime;
+   
     _pushPhotoPickerVc = pushPhotoPickerVc;
     TZAlbumPickerController *albumPickerVc = [[TZAlbumPickerController alloc] init];
     albumPickerVc.isFirstAppear = YES;
@@ -404,6 +404,10 @@
 - (void)setNeedFixComposition:(BOOL)needFixComposition {
     _needFixComposition = needFixComposition;
     [TZImagePickerConfig sharedInstance].needFixComposition = needFixComposition;
+}
+
+-(void)setMaxTime:(double)maxTime{
+    TZImageManager.manager.maxTime = maxTime
 }
 
 - (void)observeAuthrizationStatusChange {
