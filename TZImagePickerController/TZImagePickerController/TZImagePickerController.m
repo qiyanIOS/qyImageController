@@ -407,7 +407,7 @@
 }
 
 -(void)setMaxTime:(double)maxTime{
-    TZImageManager.manager.maxTime = maxTime
+    TZImageManager.manager.maxTime = maxTime;
 }
 
 - (void)observeAuthrizationStatusChange {
