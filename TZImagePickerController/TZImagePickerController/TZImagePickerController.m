@@ -923,7 +923,12 @@
 }
 
 #pragma clang diagnostic pop
-
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+//    if ([self.topViewController isKindOfClass:TZVideoPlayerController.class] && self.topViewController.presentedViewController) {
+//        return UIInterfaceOrientationMaskPortrait;
+//    }
+    return UIInterfaceOrientationMaskAll;
+}
 @end
 
 
