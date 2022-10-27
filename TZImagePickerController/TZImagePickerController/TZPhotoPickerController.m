@@ -173,7 +173,12 @@ static CGFloat itemMargin = 5;
     }
     return [super preferredStatusBarStyle];
 }
-
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+//    if ([self.topViewController isKindOfClass:TZVideoPlayerController.class] && self.topViewController.presentedViewController) {
+//        return UIInterfaceOrientationMaskPortrait;
+//    }
+    return UIInterfaceOrientationMaskAll;
+}
 - (void)configCollectionView {
     if (!_collectionView) {
         _layout = [[UICollectionViewFlowLayout alloc] init];
