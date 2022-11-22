@@ -720,7 +720,8 @@ static CGFloat itemMargin = 5;
             
             if  (TZImageManager.manager.maxTime > 0){//说明指定了时长
                 if (model.asset.duration > TZImageManager.manager.maxTime){
-                    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"温馨提示" message:@"视频不能超过一分钟" preferredStyle:UIAlertControllerStyleAlert];
+                    NSString* times = [NSString stringWithFormat:@"视频不能超过%fs",TZImageManager.manager.maxTime];
+                    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"温馨提示" message:times preferredStyle:UIAlertControllerStyleAlert];
                     
                   
                     UIAlertAction *settingAct = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
